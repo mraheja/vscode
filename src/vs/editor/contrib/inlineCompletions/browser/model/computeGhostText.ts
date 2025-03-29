@@ -31,7 +31,9 @@ export function computeGhostText(
 	}
 
 	const sourceLine = model.getLineContent(e.range.startLineNumber);
-	const sourceIndentationLength = getLeadingWhitespace(sourceLine).length;
+
+	// Compute the indentation present in the sourceLine if the insertion doesn't move it to a new line.
+	const sourceIndentationLength = e.text.includes('\n') ? 0 : getLeadingWhitespace(sourceLine).length;
 
 	const suggestionTouchesIndentation = e.range.startColumn - 1 <= sourceIndentationLength;
 	if (suggestionTouchesIndentation) {
